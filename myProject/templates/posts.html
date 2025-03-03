@@ -1,0 +1,260 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block headi %}
+    <link rel="stylesheet" href="{% static 'post.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/post_detail.css' %}"> <!-- Include the CSS for like/dislike buttons -->
+{% endblock headi %}
+
+{% block content %}
+    <h1 class="page-title">
+        📌 Recent Posts
+        <div class="search-container">
+            <form method="GET" action="" class="search-box">
+                <!-- Search Icon -->
+                <div class="search-icon">
+                    <svg viewBox="0 0 20 20" aria-hidden="true" width="20" fill="#6b7280">
+                        <path d="M16.72 17.78a.75.75 0 1 0 1.06-1.06l-1.06 1.06ZM9 14.5A5.5 5.5 0 0 1 3.5 9H2a7 7 0 0 0 7 7v-1.5ZM3.5 9A5.5 5.5 0 0 1 9 3.5V2a7 7 0 0 0-7 7h1.5ZM9 3.5A5.5 5.5 0 0 1 14.5 9H16a7 7 0 0 0-7-7v1.5Zm3.89 10.45 3.83 3.83 1.06-1.06-3.83-3.83-1.06 1.06ZM14.5 9a5.48 5.48 0 0 1-1.61 3.89l1.06 1.06A6.98 6.98 0 0 0 16 9h-1.5Zm-1.61 3.89A5.48 5.48 0 0 1 9 14.5V16a6.98 6.98 0 0 0 4.95-2.05l-1.06-1.06Z"></path>
+                    </svg>
+                </div>
+    
+                <!-- Search Input -->
+                <input type="text" name="q" class="search-input" placeholder="Search posts..." value="{{ query }}">
+    
+                <!-- Search Button -->
+                <button type="submit" class="search-button">Search</button>
+            </form>
+        </div>
+          
+        {% if user.is_authenticated %}  
+        <a href="{% url 'create_post' %}" class="add-post-btn">
+            <i class="fas fa-plus"></i>
+        </a>
+        {% endif %}
+    </h1>
+
+    <style>
+        .search-container {
+            background-color : transparent;
+            padding-top : 27px;
+            border-radius: 12px;
+            margin: 0 auto; /* Center the container */
+            max-width: 800px; /* Limit width for better readability */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+        }
+    
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow for the search box */
+            transition: box-shadow 0.3s ease;
+        }
+    
+        .search-box:focus-within {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Highlight when focused */
+        }
+    
+        .search-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            border-right: 1px solid #e5e7eb; /* Lighter border */
+            color: #6b7280; /* Icon color */
+        }
+    
+        .search-input {
+            flex: 1;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            outline: none;
+            color: #374151; /* Darker text for better readability */
+            background-color: transparent;
+        }
+    
+        .search-input::placeholder {
+            color: #9ca3af; /* Lighter placeholder text */
+        }
+    
+        .search-button {
+            background-color: #3b82f6;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+    
+        .search-button:hover {
+            background-color: #2563eb; /* Slightly darker on hover */
+            transform: scale(1.02); /* Slight scale effect */
+        }
+    
+        .search-button:active {
+            transform: scale(0.98); /* Pressed effect */
+        }
+    </style>
+
+
+    <div class="posts-container">
+        {% for post in posts %}
+        <a href="{% url 'post_detail' post.id %}" class="post-link">
+            <div class="post-item">
+                <div class="post-header">
+                    <span class="post-author">👤 {{ post.author.username }}</span>
+                    <small class="post-date">🕒 {{ post.created_at|date:"F j, Y, g:i A" }}</small>
+                </div>
+                <h2 class="post-title">{{ post.title }}</h2>
+                <p class="post-body">{{ post.body }}</p>
+
+                <!-- Like/Dislike Buttons -->
+                <div class="like-dislike-buttons">
+                    <label class="a">
+                        <input type="checkbox" id="like-checkbox-{{ post.id }}" {% if request.user in post.likes.all %}checked{% endif %} 
+                            onchange="toggleLike({{ post.id }})">
+                        <div class="checkmark">
+                            <svg fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.3"
+                                    stroke="{% if request.user in post.likes.all %}#065fd4{% else %}#606060{% endif %}"
+                                    d="M8 10V20M8 10L4 9.99998V20L8 20M8 10L13.1956 3.93847C13.6886 3.3633 14.4642 3.11604 15.1992 3.29977L15.2467 3.31166C16.5885 3.64711 17.1929 5.21057 16.4258 6.36135L14 9.99998H18.5604C19.8225 9.99998 20.7691 11.1546 20.5216 12.3922L19.3216 18.3922C19.1346 19.3271 18.3138 20 17.3604 20L8 20"></path>
+                            </svg>
+                        </div>
+                        <span id="like-count-{{ post.id }}">{{ post.total_likes }}</span>
+                    </label>
+                    <label class="a">
+                        <input type="checkbox" id="dislike-checkbox-{{ post.id }}" {% if request.user in post.dislikes.all %}checked{% endif %} 
+                            onchange="toggleDislike({{ post.id }})">
+                        <div class="checkmark">
+                            <svg fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.3"
+                                    stroke="{% if request.user in post.dislikes.all %}#065fd4{% else %}#606060{% endif %}"
+                                    d="M8 14V4M8 14L4 14V4L8 4M8 14L13.1956 20.0615C13.6886 20.6367 14.4642 20.884 15.1992 20.7002L15.2467 20.6883C16.5885 20.3529 17.1929 18.7894 16.4258 17.6386L14 14H18.5604C19.8225 14 20.7691 12.8454 20.5216 11.6078L19.3216 5.60784C19.1346 4.6729 18.3138 4 17.3604 4L8 4"></path>
+                            </svg>
+                        </div>
+                        <span id="dislike-count-{{ post.id }}">{{ post.total_dislikes }}</span>
+                    </label>
+                </div>
+                <div class="comment-count">
+                     {{ post.comments.count }} comments
+                </div>
+            </div>
+        </a>
+            {% if not forloop.last %}
+                <hr class="post-divider">
+            {% endif %}
+        {% empty %}
+            <div class="no-posts">
+                <p> No posts yet. Start the conversation!</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <style>
+        .page-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    
+        .add-post-btn {
+            position: fixed;
+            right: 20px;
+            font-size: 12px;
+            background-color: #007bff;
+            color: white;
+            padding: 12px 15px;
+            border-radius: 50%;
+            text-decoration: none;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            transition: 0.2s ease-in-out;
+        }
+        
+        .add-post-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+    <script>
+        function toggleLike(postId) {
+            fetch(`/posts/${postId}/like/`, { 
+                method: "POST", 
+                headers: { "X-CSRFToken": "{{ csrf_token }}" }
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById(`like-count-${postId}`).innerText = data.likes;
+                document.getElementById(`dislike-count-${postId}`).innerText = data.dislikes;
+
+                // Select like and dislike icons
+                let likeIcon = document.querySelector(`#like-checkbox-${postId} + .checkmark svg path`);
+                let dislikeIcon = document.querySelector(`#dislike-checkbox-${postId} + .checkmark svg path`);
+
+                // Toggle like and dislike states
+                if (data.user_liked) {
+                    likeIcon.style.stroke = "#065fd4";
+                    dislikeIcon.style.stroke = "#606060";
+                } else {
+                    likeIcon.style.stroke = "#606060";
+                }
+            });
+        }
+
+        function toggleDislike(postId) {
+            fetch(`/posts/${postId}/dislike/`, { 
+                method: "POST", 
+                headers: { "X-CSRFToken": "{{ csrf_token }}" }
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById(`like-count-${postId}`).innerText = data.likes;
+                document.getElementById(`dislike-count-${postId}`).innerText = data.dislikes;
+
+                // Select like and dislike icons
+                let likeIcon = document.querySelector(`#like-checkbox-${postId} + .checkmark svg path`);
+                let dislikeIcon = document.querySelector(`#dislike-checkbox-${postId} + .checkmark svg path`);
+
+                // Toggle like and dislike states
+                if (data.user_disliked) {
+                    dislikeIcon.style.stroke = "#065fd4";
+                    likeIcon.style.stroke = "#606060";
+                } else {
+                    dislikeIcon.style.stroke = "#606060";
+                }
+            });
+        }
+    </script>
+
+    <style>
+        .comment-count {
+            margin-left: auto; /* Pushes the comment count to the right */
+            font-size: 14px;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .comment-count::before {
+            font-size: 16px;
+        }
+        .post-item {
+            display: flex;
+            flex-direction: column; /* Keeps the content stacked vertically */
+        }
+        
+        .post-header, .post-title, .post-body, .like-dislike-buttons {
+            width: 100%; /* Ensures these elements take full width */
+        }
+    </style>
+
+
+{% endblock content %}

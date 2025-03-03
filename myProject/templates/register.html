@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+registration
+{% endblock title %}
+{% block content %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<div class="register-container">
+    <div class="register-box">
+        <h2>Sign Up</h2>
+        <p class="subtext">Create your account</p>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="input-group">
+                <label for="id_username">Username</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-user input-icon"></i>
+                    {{ form.username }}
+                </div>
+            </div>
+                {% if form.username.errors %}
+                    <p class="error-message">{{ form.username.errors.0 }}</p>
+                {% endif %}
+
+            <div class="input-group">
+                <label for="id_password1">Password</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-lock input-icon"></i>
+                    {{ form.password1 }}
+                    <i class="fa-solid fa-eye toggle-password" onclick="togglePassword('id_password1', this)"></i>
+                </div>
+            </div>
+                {% if form.password1.errors %}
+                    <p class="error-message">{{ form.password1.errors.0 }}</p>
+                {% endif %}
+
+            <div class="input-group">
+                <label for="id_password2">Confirm Password</label>
+                <div class="input-wrapper">
+                    <i class="fa-solid fa-lock input-icon"></i>
+                    {{ form.password2 }}
+                    <i class="fa-solid fa-eye toggle-password" onclick="togglePassword('id_password2', this)"></i>
+                </div>
+            </div>
+                {% if form.password2.errors %}
+                    <p class="error-message">{{ form.password2.errors.0 }}</p>
+                {% endif %}
+            
+
+            <button type="submit" class="btn-primary">Register</button>
+        </form>
+
+        <div class="extra-links">
+            <p>Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+        </div>
+    </div>
+</div>
+
+<script>
+function togglePassword(fieldId, icon) {
+    var passwordField = document.getElementById(fieldId);
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+        icon.classList.replace("fa-eye", "fa-eye-slash");
+    } else {
+        passwordField.type = "password";
+        icon.classList.replace("fa-eye-slash", "fa-eye");
+    }
+}
+</script>
+
+<style>
+/* Input Groups */
+.input-group {
+    text-align: left;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.input-group label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    font-size: 0.95rem;
+    color: #444;
+}
+
+/* Input Fields */
+.input-group input {
+    padding: 8px 40px; /* Leaves space for icons */
+}
+
+/* Icons inside input fields */
+.input-icon {
+    position: absolute;
+    left: 12px;
+    color: rgba(0, 0, 0, 0.35);
+    font-size: 16px;
+    bottom: 14px;
+}
+
+/* Eye toggle on the right */
+.toggle-password {
+    position: absolute;
+    right: 12px;
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.35);
+    bottom: 14px;
+}
+
+.toggle-password:hover {
+    color: rgba(0, 87, 179, 0.35);
+}
+
+/* Error Messages */
+.error-message {
+    color: #ff4d4d;
+    font-size: 0.85rem;
+    margin-top: 5px;
+}
+
+/* Button */
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    opacity: 0.9;
+}
+</style>
+
+{% endblock %}

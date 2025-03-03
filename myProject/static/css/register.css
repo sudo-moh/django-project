@@ -1,0 +1,108 @@
+/* General Styles */
+body {
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(135deg, #28a745, #20c997);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Register Container */
+.register-container {
+    width: 100%;
+    max-width: 450px;
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Register Title */
+h2 {
+    font-size: 26px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Input Group */
+.input-group {
+    text-align: left;
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    font-weight: 600;
+    font-size: 14px;
+    color: #444;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: 0.3s;
+    background: #f9f9f9;
+}
+
+/* Input Focus */
+.input-group input:focus {
+    border-color: #28a745;
+    box-shadow: 0px 0px 8px rgba(40, 167, 69, 0.5);
+    background: white;
+}
+
+/* Register Button */
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background: #28a745;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    background: #218838;
+}
+
+/* Error Messages */
+.alert {
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+}
+
+.alert-error {
+    background: #dc3545;
+}
+
+/* Extra Links */
+.extra-links {
+    margin-top: 15px;
+}
+
+.extra-links a {
+    color: #28a745;
+    font-size: 14px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.extra-links a:hover {
+    text-decoration: underline;
+}

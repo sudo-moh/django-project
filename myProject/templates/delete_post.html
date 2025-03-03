@@ -1,0 +1,15 @@
+{% extends "profile.html" %}
+{% block content %}
+<div class="container">
+    <div class="alert-box">
+        <h2>Are you sure?</h2>
+        <p>Do you really want to delete this post? This action cannot be undone.</p>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a href="/profile" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

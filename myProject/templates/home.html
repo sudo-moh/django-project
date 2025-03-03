@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block headi %}
+<link rel="stylesheet" href="{% static 'home.css' %}">
+{% endblock headi %}
+
+{% block content %}
+<div class="home-container">
+    <h1 class="welcome-text">Hello, <span class="username">{{ username }}</span>!</h1>
+    <p class="intro-text">
+        Your go-to place for amazing content. 
+        Check out our <a href="{% url 'posts' %}" class="posts-link">latest posts</a>!
+    </p>
+</div>
+
+{% endblock content %}

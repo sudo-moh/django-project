@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/post_forms.css' %}">
+
+<div class="form-container">
+    <h2>Edit Post</h2>
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="coolinput">
+            <label for="id_title" class="text">Title:</label>
+            <input type="text" name="title" id="id_title" class="input" value="{{ form.title.value }}">
+        </div>
+
+        <div class="coolinput">
+            <label for="id_body" class="text">Content:</label>
+            <textarea name="body" id="id_body" class="input">{{ form.body.value }}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="/profile" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+{% endblock %}

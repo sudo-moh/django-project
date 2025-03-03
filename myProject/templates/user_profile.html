@@ -1,0 +1,155 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="profile-container">
+        <h1>{{ profile_user.username }}'s Profile</h1>
+
+        <div class="user-info">
+            <p>👤 <strong>Username:</strong> {{ profile_user.username }}</p>
+        </div>
+
+        <h2>📌 Posts</h2>
+
+        <div class="posts-container">
+            {% for post in posts %}
+                <a href="{% url 'post_detail' post.id %}" class="post-link">
+                    <div class="post-item">
+                        <div class="post-header">
+                            <span class="post-author">👤 {{ post.author.username }}</span>
+                            <small class="post-date">🕒 {{ post.created_at|date:"F j, Y, g:i A" }}</small>
+                        </div>
+                        <h2 class="post-title">{{ post.title }}</h2>
+                        <p class="post-body">{{ post.body }}</p>
+                    </div>
+                </a>
+                {% if not forloop.last %}
+                    <hr class="post-divider">
+                {% endif %}
+            {% empty %}
+                <p>No posts yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+<style>
+    /* Centered Profile Container */
+    .profile-container {
+        width: 80%;
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* User Info */
+    .user-info {
+        font-size: 1rem;
+        color: #555;
+        margin-bottom: 20px;
+    }
+    
+    /* Post Section */
+    .posts-container {
+        margin-top: 20px;
+    }
+    
+    /* Post Item */
+    .post-item {
+        background: #f9f9f9;
+        padding: 15px;
+        border-radius: 8px;
+        border-left: 4px solid #007bff;
+        transition: 0.3s ease-in-out;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+    
+    .post-item:hover {
+        background: #f0f4ff;
+        transform: translateY(-2px);
+    }
+    
+    /* Post Title */
+    .post-title {
+        font-size: 1.3rem;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #222;
+    }
+    
+    /* Post Body */
+    .post-body {
+        font-size: 1rem;
+        color: #444;
+        line-height: 1.4;
+    }
+    
+    /* Post Header */
+    .post-header {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 8px;
+    }
+    
+    /* Divider Between Posts */
+    .post-divider {
+        border: none;
+        height: 1px;
+        background: #ddd;
+        margin: 15px 0;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .profile-container {
+            width: 80%;
+            padding: 15px;
+        }
+    
+        .post-item {
+            padding: 12px;
+            border-left-width: 3px;
+        }
+    
+        .post-title {
+            font-size: 1.2rem;
+        }
+    
+        .post-body {
+            font-size: 0.95rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .profile-container {
+            width: 90%;
+            border-radius: 4px;
+            box-shadow: none;
+            padding: 10px;
+        }
+    
+        .post-item {
+            padding: 10px;
+        }
+    
+        .post-title {
+            font-size: 1.1rem;
+        }
+    
+        .post-body {
+            font-size: 0.9rem;
+        }
+    }
+    
+    /* Remove Underlines from Links */
+    a {
+        text-decoration: none;
+    }
+    
+    /* Add Smooth Hover Effect for Links */
+    a:hover {
+        opacity: 0.85;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+login
+{% endblock title %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+<!-- FontAwesome for the eye icon -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+<div class="login-container">
+    <div class="login-box">
+        <h2>Welcome Back!</h2>
+
+        <!-- Display Django messages (error/success) -->
+        {% if e %}
+        <div class="messages">
+                    <div class="alert alert-danger">
+                        Invalid username or password.
+                    </div>
+        </div>
+    {% endif %}
+    
+    
+    
+    
+
+    <form method="POST">
+    {% csrf_token %}
+
+    <div class="input-group">
+        <label for="id_username">Username</label>
+        {{ form.username }}
+        {% if form.username.errors %}
+            <p class="error-message">{{ form.username.errors.0 }}</p>
+        {% endif %}
+    </div>
+
+    <div class="input-group">
+        <label for="id_password">Password</label>
+        <div class="password-wrapper">
+            {{ form.password }}
+            <i class="fa-solid fa-eye toggle-password" onclick="togglePassword()"></i>
+        </div>
+        {% if form.password.errors %}
+            <p class="error-message">{{ form.password.errors.0 }}</p>
+        {% endif %}
+    </div>
+
+    <button type="submit" class="btn-primary">Login</button>
+</form>
+
+        <div class="extra-links">
+            <a href="#">Forgot Password?</a> •
+            <a href="{% url 'register' %}">Create an Account</a>
+        </div>
+    </div>
+</div>
+
+<script>
+function togglePassword() {
+    var passwordField = document.getElementById("id_password");
+    var toggleIcon = document.querySelector(".toggle-password");
+
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+        toggleIcon.classList.remove("fa-eye");
+        toggleIcon.classList.add("fa-eye-slash");
+    } else {
+        passwordField.type = "password";
+        toggleIcon.classList.remove("fa-eye-slash");
+        toggleIcon.classList.add("fa-eye");
+    }
+}
+</script>
+
+<style>
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper input {
+    flex: 1;
+    padding-right: 35px;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #555;
+}
+
+.toggle-password:hover {
+    color: #007bff;
+}
+</style>
+
+{% endblock %}

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'button.css' %}">
+    <link rel="icon" type="image/jpg" href="{% static "blogs.jpg" %}">
+    <title>RandomBlogs</title>
+    {% block headi %}
+    {% endblock headi %}
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="/">RandomBlogs</a>
+        </div>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <ul class="nav-links">
+            <li><a href="/profile" onclick="closeMenu()">Home</a></li>
+            <li><a href="{% url 'posts' %}" onclick="closeMenu()">Browse</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="/about" onclick="closeMenu()">About</a></li>
+
+                <li><a href="{% url 'logout' %}" onclick="closeMenu()">Logout</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}" onclick="closeMenu()">Login</a></li>
+                <li><a href="{% url 'register' %}" onclick="closeMenu()">Sign up</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.querySelector(".nav-links");
+            menu.classList.toggle("active");
+        }
+
+        function closeMenu() {
+            const menu = document.querySelector(".nav-links");
+            if (window.innerWidth <= 768) { // Only close on mobile
+                menu.classList.remove("active");
+            }
+        }
+    </script>
+    <script>
+      function toggleMenu() {
+          const menu = document.querySelector(".nav-links");
+          menu.classList.toggle("active");
+      }
+  
+      function closeMenu() {
+          const menu = document.querySelector(".nav-links");
+          if (window.innerWidth <= 768) { // Only close on mobile
+              menu.classList.remove("active");
+          }
+      }
+  
+      // Close menu when clicking outside
+      document.addEventListener("click", function (event) {
+          const menu = document.querySelector(".nav-links");
+          const toggleButton = document.querySelector(".menu-toggle");
+          if (!menu.contains(event.target) && !toggleButton.contains(event.target)) {
+              menu.classList.remove("active");
+          }
+      });
+  </script>
+  
+</body>
+</html>

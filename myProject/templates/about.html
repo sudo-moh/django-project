@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block headi %}
+<link rel="stylesheet" href="{% static 'css/about.css' %}">
+{% endblock headi %}
+
+{% block content %}
+<header>
+    <h1>About This Project</h1>
+</header>
+
+<section class="about">
+    <h2>Project Overview</h2>
+    <p>
+        This is a Social Posting Platform that allows users to create, edit, and delete posts. 
+        Users can interact with posts by liking, disliking and commenting. The project is built using Django, 
+        ensuring smooth functionality with a modern design.
+    </p>
+
+    <h2>Key Features</h2>
+    <ul class='l'>
+        <li>🔹 User authentication (login, signup)</li>
+        <li>🔹 Create, edit, and delete posts</li>
+        <li>🔹 Like , dislike and comment functionality with instant feedback</li>
+        <li>🔹 AJAX-powered actions for a seamless experience</li>
+        <li>🔹 Secure and efficient backend using Django</li>
+    </ul>
+</section>
+
+<section class="contact">
+    <h2>Contact Me</h2>
+    <p>If you're interested in working with me or have any questions, feel free to reach out.</p>
+    <p>Email: <a href="mailto:mbusiness1807@gmail.com">mbusiness1807@gmail.com</a></p>
+</section>
+
+<footer>
+    <p>&copy; 2025 Moh. All rights reserved.</p>
+</footer>
+{% endblock content %}

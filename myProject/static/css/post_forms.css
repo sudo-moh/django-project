@@ -1,0 +1,133 @@
+/* ==== Form Container Styling ==== */
+.form-container {
+    margin: 50px auto;
+    padding: 25px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+    width: 95%;
+    max-width: 600px;
+}
+
+/* ==== Heading Styling ==== */
+.form-container h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1a1a1a;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+/* ==== Custom Input Fields ==== */
+.coolinput {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.coolinput label.text {
+    font-size: 0.85rem;
+    color: #4A90E2; /* Primary blue color */
+    font-weight: 700;
+    position: relative;
+    top: 0.6rem;
+    left: 40px;
+    padding: 0 5px;
+    background: #ffffff;
+    width: fit-content;
+}
+
+.coolinput input.input,
+.coolinput textarea.input {
+    width: 95%;
+    max-width: 500px; /* Prevents it from being too wide on larger screens */
+    padding: 14px; /* More padding for a better feel */
+    font-size: 1rem;
+    border: 2px solid #4A90E2;
+    border-radius: 10px;
+    background: #F5F7FA;
+    transition: all 0.3s ease-in-out;
+    resize: none;
+    
+    display: block; /* Ensures it behaves as a block element */
+    margin: 0 auto; /* Centers horizontally */
+}
+
+
+.coolinput input.input:focus,
+.coolinput textarea.input:focus {
+    outline: none;
+    border-color: #2563EB;
+    background: #fff;
+    box-shadow: 0 0 6px rgba(37, 99, 235, 0.3);
+}
+
+/* ==== Adjusting Textarea Height ==== */
+.coolinput textarea.input {
+    min-height: 150px; /* Ensures enough space */
+    max-height: 300px; /* Prevents it from growing too much */
+}
+
+/* ==== Button Group Styling ==== */
+.btn-group {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    flex: 1;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+.btn-primary {
+    background: #2563EB;
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    background: #1E40AF;
+}
+
+.btn-secondary {
+    background: #f0f2f5;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+.btn-secondary:hover {
+    background: #e4e6eb;
+}
+
+/* ==== Responsive Design ==== */
+@media (max-width: 768px) {
+    .form-container {
+        width: 80%;
+        margin-top: 30px;
+    }
+
+    .coolinput input.input,
+    .coolinput textarea.input {
+        padding: 10px;
+        font-size: 0.95rem;
+    }
+
+    .btn-group {
+        flex-direction: column;
+    }
+    .coolinput label.text {
+        left: 15px;
+    }
+}

@@ -1,0 +1,175 @@
+
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .post-detail {
+        width: 80%;
+        padding: 15px;
+    }
+
+    .post-title {
+        font-size: 1.8rem;
+    }
+
+    .post-body {
+        font-size: 1rem;
+        line-height: 1.5;
+    }
+}
+
+@media (max-width: 480px) {
+    .post-detail {
+        width: 80%;
+        margin: 20px auto;
+        padding: 10px;
+    }
+
+    .post-title {
+        font-size: 1.5rem;
+    }
+
+    .post-meta {
+        font-size: 0.85rem;
+    }
+
+    .post-body {
+        font-size: 0.95rem;
+        line-height: 1.4;
+    }
+}
+
+/* Back Button */
+.back-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 15px;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: 0.3s;
+    text-align: center;
+}
+
+.back-button:hover {
+    background: #0056b3;
+}
+
+/* Centering the button on smaller screens */
+@media (max-width: 480px) {
+    .post-detail {
+        width: 80%;
+    }
+    .back-button {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 12px 0;
+    }
+}
+.like-dislike-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.like-dislike-buttons button {
+    background: none;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 12px;
+    transition: 0.3s;
+}
+
+.like-dislike-buttons button:hover {
+    background: #f0f0f0;
+}
+   /* Hide checkbox inputs */
+.a input {
+    position: absolute;
+    opacity: 0;
+    height: 0;
+    width: 0;
+    }
+
+    /* Button a */
+.a {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 16px;
+    user-select: none;
+    transition: transform 100ms;
+    }
+
+    /* Checkmark SVG */
+.checkmark {
+    height: 2em;
+    width: 2em;
+    transition: 100ms;
+    animation: dislike_401 400ms ease;
+}
+
+
+/* Hover effect */
+.a:hover {
+transform: scale(1.1);
+}
+
+@keyframes like_401 {
+0% { transform: scale(0); }
+50% { transform: scale(1.2); }
+100% { transform: scale(1); }
+}
+
+@keyframes dislike_401 {
+0% { transform: scale(0); }
+50% { transform: scale(1.2); }
+100% { transform: scale(1); }
+}
+
+
+.post-detail {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+}
+
+.post-title {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.post-meta {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.post-body {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #444;
+}
+/* Active state for like and dislike buttons */
+.a input:checked + .checkmark path {
+    stroke: #065fd4;
+    
+}
+
+.a input:not(:checked) + .checkmark path {
+    stroke: #606060;
+}
+
+/* Ensure the other button is grayed out when one is active */
+.a input:checked ~ .a input:not(:checked) + .checkmark path {
+    stroke: #606060;
+}

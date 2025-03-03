@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/post_forms.css' %}">
+
+<div class="form-container">
+    <h2>Create a New Post</h2>
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="coolinput">
+            <label for="title" class="text">Title:</label>
+            <input type="text" name="title" id="title" class="input" placeholder="Enter your title...">
+        </div>
+
+        <div class="coolinput">
+            <label for="body" class="text">Post Content:</label>
+            <textarea name="body" id="content" class="input" placeholder="Write your post here..." rows="6"></textarea>
+        </div>
+
+        <div class="btn-group">
+            <button type="submit" class="btn btn-primary">Post</button>
+            <a href="/profile" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

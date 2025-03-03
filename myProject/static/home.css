@@ -1,0 +1,60 @@
+.home-container {
+    text-align: center;
+    padding: 50px 20px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.welcome-text {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: slideDown 0.8s ease-out forwards;
+}
+
+.username {
+    color: #007bff;
+    font-weight: bold;
+}
+
+.intro-text {
+    font-size: 1.2rem;
+    color: #555;
+    margin-top: 10px;
+    opacity: 0;
+    animation: fadeIn 1.5s ease-in-out forwards;
+}
+
+.posts-link {
+    color: #ff5722;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.posts-link:hover {
+    color: #e64a19;
+    text-decoration: underline;
+}
+
+/* Animations */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

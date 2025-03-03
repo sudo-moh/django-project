@@ -1,0 +1,221 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block headi %}
+    <link rel="stylesheet" href="{% static 'css/post_detail.css' %}">
+{% endblock headi %}
+
+{% block content %}
+    <div class="post-detail">
+        <article class="post">
+            <h1 class="post-title">{{ post.title }}</h1>
+            <p class="post-meta">
+                By <strong>
+                    <a href="/users/{{ post.author.username }}" class="profile-link">
+                        {{ post.author.username }}
+                    </a>
+                </strong> | 
+                <time datetime="{{ post.created_at }}">{{ post.created_at|date:"F j, Y, g:i A" }}</time>
+            </p>
+            <div class="post-body">
+                {{ post.body }}
+            </div>
+        </article>
+
+        <!-- Like/Dislike Buttons -->
+        <div class="like-dislike-buttons">
+            <label class="a">
+                <input type="checkbox" id="like-checkbox" {% if request.user in post.likes.all %}checked{% endif %} 
+                    onchange="toggleLike({{ post.id }})">
+                <div class="checkmark">
+                    <svg fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.3"
+                            stroke="{% if request.user in post.likes.all %}#065fd4{% else %}#606060{% endif %}"
+                            d="M8 10V20M8 10L4 9.99998V20L8 20M8 10L13.1956 3.93847C13.6886 3.3633 14.4642 3.11604 15.1992 3.29977L15.2467 3.31166C16.5885 3.64711 17.1929 5.21057 16.4258 6.36135L14 9.99998H18.5604C19.8225 9.99998 20.7691 11.1546 20.5216 12.3922L19.3216 18.3922C19.1346 19.3271 18.3138 20 17.3604 20L8 20"></path>
+                    </svg>
+                </div>
+                <span id="like-count">{{ post.total_likes }}</span>
+            </label>
+            <label class="a">
+                <input type="checkbox" id="dislike-checkbox" {% if request.user in post.dislikes.all %}checked{% endif %} 
+                    onchange="toggleDislike({{ post.id }})">
+                <div class="checkmark">
+                    <svg fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.3"
+                            stroke="{% if request.user in post.dislikes.all %}#065fd4{% else %}#606060{% endif %}"
+                            d="M8 14V4M8 14L4 14V4L8 4M8 14L13.1956 20.0615C13.6886 20.6367 14.4642 20.884 15.1992 20.7002L15.2467 20.6883C16.5885 20.3529 17.1929 18.7894 16.4258 17.6386L14 14H18.5604C19.8225 14 20.7691 12.8454 20.5216 11.6078L19.3216 5.60784C19.1346 4.6729 18.3138 4 17.3604 4L8 4"></path>
+                    </svg>
+                </div>
+                <span id="dislike-count">{{ post.total_dislikes }}</span>
+            </label>
+        </div>
+        <a href='/posts' class='back-button' >Back to posts</a>
+    </div>
+
+    <script>
+        function toggleLike(postId) {
+            fetch(`like/`, { 
+                method: "POST", 
+                headers: { "X-CSRFToken": "{{ csrf_token }}" }
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("like-count").innerText = data.likes;
+                document.getElementById("dislike-count").innerText = data.dislikes;
+        
+                // Select like and dislike icons
+                let likeIcon = document.querySelector("#like-checkbox + .checkmark svg path");
+                let dislikeIcon = document.querySelector("#dislike-checkbox + .checkmark svg path");
+        
+                // Toggle like and dislike states
+                if (data.user_liked) {
+                    likeIcon.style.stroke = "#065fd4";
+                    dislikeIcon.style.stroke = "#606060";
+                } else {
+                    likeIcon.style.stroke = "#606060";
+                }
+            });
+        }
+        
+        function toggleDislike(postId) {
+            fetch(`dislike/`, { 
+                method: "POST", 
+                headers: { "X-CSRFToken": "{{ csrf_token }}" }
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("like-count").innerText = data.likes;
+                document.getElementById("dislike-count").innerText = data.dislikes;
+        
+                // Select like and dislike icons
+                let likeIcon = document.querySelector("#like-checkbox + .checkmark svg path");
+                let dislikeIcon = document.querySelector("#dislike-checkbox + .checkmark svg path");
+        
+                // Toggle like and dislike states
+                if (data.user_disliked) {
+                    dislikeIcon.style.stroke = "#065fd4";
+                    likeIcon.style.stroke = "#606060";
+                } else {
+                    dislikeIcon.style.stroke = "#606060";
+                }
+            });
+        }
+    </script>
+    
+    <div class="comments-section">
+        <h2>Comments</h2>
+            <!-- Comment form -->
+            {% if request.user.is_authenticated %}
+            <form method="POST" class="comment-form">
+                {% csrf_token %}
+                {{ form.body }}
+                <button type="submit">Add Comment</button>
+            </form>
+        {% else %}
+            <p><a href="/users/login">Log in</a> to post a comment.</p>
+        {% endif %}
+        <!-- Display existing comments -->
+        <div class="comments">
+            {% for comment in comments %}
+                <div class="comment">
+                    <p>
+                        <strong>{{ comment.user.username }}</strong> 
+                        <span class="comment-date">{{ comment.created_at|date:"F j, Y, g:i A" }}</span>
+                    </p>
+                    <p>{{ comment.body }}</p>
+                    
+                    {% if comment.user == request.user %}
+                        <button onclick="deleteComment({{ comment.id }})" class="delete-btn">Delete</button>
+                    {% endif %}
+                </div>
+            {% empty %}
+                <p>No comments yet. Be the first to comment!</p>
+            {% endfor %}
+        </div>
+    
+    </div>
+    
+    <script>
+        function deleteComment(commentId) {
+            fetch(`delete-comment/${commentId}/`, {
+                method: "POST",
+                headers: { "X-CSRFToken": "{{ csrf_token }}" }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                }
+            });
+            location.reload();
+        }
+    </script>
+    <style>
+        .comments-section {
+            margin-top: 20px;
+            padding: 20px;
+            border-top: 1px solid #ddd;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+        .comments-section h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        .comment {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            margin-top: 10px;
+            background: white;
+            border-radius: 6px;
+        }
+        textarea {
+            resize: none;
+        }
+        .comment p {
+            margin: 5px 0;
+        }
+        .comment strong {
+            color: #007bff;
+        }
+        .comment-date {
+            font-size: 12px;
+            color: gray;
+            margin-left: 10px;
+        }
+        .delete-btn {
+            background: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .comment-form textarea {
+            width: 95%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+        .comment-form textarea:focus {
+            border: 2px solid #007bff;
+        }
+
+        .comment-form button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+        .comment-form button:hover {
+            background:rgb(0, 79, 164);
+        }
+    </style>
+    
+    
+
+{% endblock content %}

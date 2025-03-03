@@ -1,0 +1,157 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    max-width: 100%;
+    overflow-x: hidden; /* Prevents horizontal scrolling */
+    font-family: 'Arial', sans-serif;
+    background: #f8f9fa;
+}
+
+/* Page Title */
+.page-title {
+    text-align: left;
+    font-size: 2rem;
+    color: #222;
+    font-weight: bold;
+    padding: 15px;
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid #ddd;
+    width: 100%;
+}
+
+/* Posts Container */
+.posts-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 15px;
+    overflow-y: auto; /* Enables scrolling */
+}
+
+/* Each Post */
+.post-item {
+    width: 100%;
+    padding: 15px 0;
+}
+
+/* Author & Timestamp */
+.post-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Author Style */
+.post-author {
+    font-weight: bold;
+    color: #007bff;
+}
+
+/* Post Title */
+.post-title {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #222;
+    text-decoration: none;
+    display: block;
+    margin-top: 5px;
+    transition: color 0.2s;
+}
+
+.post-title:hover {
+    color: #007bff;
+}
+
+/* Post Body - Limit to 2 lines */
+.post-body {
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.6;
+    margin-top: 10px;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Divider */
+.post-divider {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 15px 0;
+}
+
+/* No Posts Message */
+.no-posts {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #999;
+    margin-top: 40px;
+}
+
+/* 🔥 Mobile Responsiveness */
+@media screen and (max-width: 768px) {
+    .page-title {
+        font-size: 1.5rem;
+        padding: 10px;
+    }
+
+    .posts-container {
+        padding: 10px;
+    }
+
+    .post-item {
+        padding: 10px 0;
+    }
+
+    .post-title {
+        font-size: 1.2rem;
+    }
+
+    .post-body {
+        font-size: 0.95rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .page-title {
+        font-size: 1.3rem;
+        padding: 8px;
+    }
+
+    .posts-container {
+        padding: 5px;
+    }
+
+    .post-title {
+        font-size: 1.1rem;
+    }
+
+    .post-body {
+        font-size: 0.9rem;
+    }
+}
+.post-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    padding: 15px;
+    border-radius: 5px;
+    transition: background 0.2s ease-in-out;
+}
+
+.post-link:hover {
+    background: #f1f1f1;
+}
